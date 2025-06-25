@@ -1,0 +1,54 @@
+class BankingApplication 
+{
+    public static void main(String[] args)
+    {
+        BankAccount myAccount = new BankAccount(1000);
+
+        Runnable objDeposit = () -> myAccount.deposit(500);
+        Runnable objWithdra = () -> myAccount.withdraw(700);
+        Runnable objBalance= () -> myAccount.checkBalance();
+
+        Thread depositThread = new Thread(objDeposit);
+        Thread withdrawThread = new Thread(objWithdra);
+        Thread balanceThread = new Thread(objBalance);
+        depositThread.start();
+        withdrawThread.start();
+        balanceThread.start();
+    }
+}
+
+class BankAccount 
+{
+    private double balance;
+
+    public BankAccount(double balance) 
+    {
+        this.balance = balance;
+    }
+
+    public synchronized void deposit(double amount) 
+    {
+        System.out.println("Depositing: " + amount);
+        balance += amount;
+        System.out.println("New balance: " + balance);
+    }
+
+    public synchronized void withdraw(double amount) 
+    {
+        if (amount > balance)
+        {
+            System.out.println("Insufficient balance to withdraw " + amount);
+        } 
+        else 
+        {
+            System.out.println("Withdrawing: " + amount);
+            balance -= amount;
+            System.out.println("New balance: " + balance);
+        }
+    }
+
+    public synchronized void checkBalance()
+    {
+        System.out.println("Current balance: " + balance);
+    }
+}
