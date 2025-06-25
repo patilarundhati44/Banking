@@ -1,0 +1,34 @@
+
+class Planet implements Runnable
+{
+    private String planets;
+    private double graviRatio;
+
+    public Planet(String planet, double graviRatio) 
+    {
+        this.planets = planet;
+        this.graviRatio = graviRatio;
+    }
+
+    public void run() 
+    {
+        double weight = 70 * graviRatio;
+        System.out.printf("weight on diff planet", planets, weight);
+    }
+}
+
+public class WeightinPlan 
+{
+    public static void main(String[] args) 
+    {
+        String[] diffplanets = {"Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"};
+        double[] gravityRatios = {0.38, 0.91, 0.38, 2.34, 1.06, 0.92, 1.19};
+
+        for (int i = 0; i < diffplanets.length; i++) 
+        {
+            Thread t1 = new Thread(new Planet(diffplanets[i], gravityRatios[i]));
+            t1.start();
+        }
+    }
+}
+
